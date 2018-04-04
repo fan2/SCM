@@ -1,6 +1,7 @@
 
 当前Shell窗口添加环境变量
-----
+---
+
 下载`git-2.5.3-intel-universal-mavericks.dmg`，默认安装到`/usr/local/git/`，在当前bash（zsh） shell窗口添加环境变量。
 
 ```Shell
@@ -23,7 +24,7 @@ git version 2.5.3
 该配置只对当前shell窗口生效；新建shell窗口，依旧是git version 2.3.8。
 
 新建~/.bash_profile添加环境变量：
-----
+---
 
 ```Shell
 export PATH=/usr/local/git/bin:$PATH
@@ -32,7 +33,7 @@ export PATH=/usr/local/git/bin:$PATH
 新建shell窗口/重启Terminal/重启Mac，依旧是git version 2.3.8。
 
 新建~/.profile添加环境变量
-----
+---
 
 ```Shell
 export PATH=/usr/local/git/bin:$PATH
@@ -41,7 +42,8 @@ export PATH=/usr/local/git/bin:$PATH
 新建shell窗口/重启Terminal/重启Mac，依旧是git version 2.3.8。
 
 修改/etc/paths，添加环境变量
-----
+---
+
 插入首行：
 
 ```Shell
@@ -52,7 +54,8 @@ export PATH=/usr/local/git/bin:$PATH
 删除/etc/paths.d/git，如故。
 
 使用[ln](http://blog.chinaunix.net/uid-25445243-id-3206874.html)命令链接升级Xcode的git
-----
+---
+
 最终还是参照[Mac Xcode svn的升级方法](http://blog.csdn.net/phunxm/article/details/40834427)，使用ln命令链接指向/usr/local/git/bin下新安装的git*。
 
 ### 进入查看 Xcode 的 binUtils 目录
