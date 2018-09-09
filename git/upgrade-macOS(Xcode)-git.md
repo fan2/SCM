@@ -1,10 +1,53 @@
 
-当前Shell窗口添加环境变量
----
+参考 [**upgrade-macOS(Xcode)-svn**](../svn/upgrade-macOS(Xcode)-svn.md)：
 
-下载`git-2.5.3-intel-universal-mavericks.dmg`，默认安装到`/usr/local/git/`，在当前bash（zsh） shell窗口添加环境变量。
+1. 执行 **`brew install git`** 安装最新 git，配置 PATH 替换默认命令行工具；  
+2. 执行 `ln` 命令将 git 工具包软链到 `/Applications/Xcode.app/Contents/Developer/usr/bin/` 目录下实现替换更新。  
 
-```Shell
+安装前，终端默认使用 `/usr/bin/git`：
+
+```shell
+faner@MBP-FAN:~ $ whereis git
+/usr/bin/git
+
+faner@MBP-FAN:~ $ which git
+/usr/bin/git
+
+faner@MBP-FAN:~ $ /usr/bin/git --version
+git version 2.15.2 (Apple Git-101.1)
+
+faner@MBP-FAN:~ $ /Applications/Xcode.app/Contents/Developer/usr/bin/git --version
+git version 2.15.2 (Apple Git-101.1)
+```
+
+安装后，终端优先使用 `/usr/local/bin/git`：
+
+```shell
+faner@MBP-FAN:~ $ which git
+/usr/local/bin/git
+
+faner@MBP-FAN:~ $ git --version
+git version 2.18.0
+
+faner@MBP-FAN:~ $ /usr/local/bin/git --version
+git version 2.18.0
+```
+
+可通过 `readlink` 或 `ls` 命令查验软链真身：
+
+```shell
+faner@MBP-FAN:~ $ readlink /usr/local/bin/git
+../Cellar/git/2.18.0/bin/git
+
+faner@MBP-FAN:~ $ ls -al /usr/local/bin/git
+lrwxr-xr-x  1 faner  admin    28B Sep  7 08:02 /usr/local/bin/git@ -> ../Cellar/git/2.18.0/bin/git
+```
+
+## 手动安装更新 git
+
+从官网 https://git-scm.com/downloads 下载 macOS 安装包 `git-2.x.x-intel-universal-mavericks.dmg`，默认安装到 `/usr/local/git/`。
+
+```shell
 ➜  ~  git version
 git version 2.3.8 (Apple Git-58)
 ➜  ~  cd /usr/local/git/bin
@@ -12,59 +55,65 @@ git version 2.3.8 (Apple Git-58)
 git                        git-receive-pack           git-upload-pack
 git-credential-osxkeychain git-shell                  gitk
 git-cvsserver              git-upload-archive
-➜  bin git:(master) echo $PATH                           
+```
+
+**1. 当前 Shell 窗口添加环境变量**
+
+```shell
+➜  bin git:(master) echo $PATH
 /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
 ➜  bin git:(master) export PATH=/usr/local/git/bin:$PATH
-➜  bin git:(master) echo $PATH                          
+
+➜  bin git:(master) echo $PATH
 /usr/local/git/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
+```
+
+该配置只对当前 shell 窗口生效：
+
+```shell
 ➜  bin git:(master) git version
 git version 2.5.3
 ```
 
-该配置只对当前shell窗口生效；新建shell窗口，依旧是git version 2.3.8。
+新建 shell 窗口，依旧是 git version 2.3.8。
 
-新建~/.bash_profile添加环境变量：
----
+**2. 新建 `~/.bash_profile` 添加环境变量**
 
-```Shell
+```shell
 export PATH=/usr/local/git/bin:$PATH
 ```
 
-新建shell窗口/重启Terminal/重启Mac，依旧是git version 2.3.8。
+新建 shell 窗口 / 重启 Terminal / 重启 macOS，依旧是 git version 2.3.8？
 
-新建~/.profile添加环境变量
----
+**3. 新建 `~/.profile` 添加环境变量**
 
-```Shell
+```shell
 export PATH=/usr/local/git/bin:$PATH
 ```
 
-新建shell窗口/重启Terminal/重启Mac，依旧是git version 2.3.8。
+新建 shell 窗口 / 重启 Terminal / 重启 macOS，依旧是 git version 2.3.8。
 
-修改/etc/paths，添加环境变量
----
+**4. 修改 `/etc/paths`，添加环境变量**
 
 插入首行：
 
-```Shell
+```shell
 /usr/local/git/bin
 ```
 
-新建shell窗口/重启Terminal/重启Mac，依旧是git version 2.3.8。
-删除/etc/paths.d/git，如故。
+新建 shell 窗口 / 重启 Terminal / 重启 macOS，依旧是 git version 2.3.8？
 
-使用[ln](http://blog.chinaunix.net/uid-25445243-id-3206874.html)命令链接升级Xcode的git
----
+删除 `/etc/paths.d/git`，如故。
 
-最终还是参照[Mac Xcode svn的升级方法](http://blog.csdn.net/phunxm/article/details/40834427)，使用ln命令链接指向/usr/local/git/bin下新安装的git*。
+## 使用 [ln](http://blog.chinaunix.net/uid-25445243-id-3206874.html) 命令链接升级 Xcode 的 git
 
 ### 进入查看 Xcode 的 binUtils 目录
 
-```Shell
+```shell
 ➜  ~  cd /Applications/Xcode.app/Contents/Developer/usr/bin/
 ```
 
-```Shell
+```shell
 ➜  bin  ls git*
 git                git-receive-pack   git-upload-archive
 git-cvsserver      git-shell          git-upload-pack
@@ -72,7 +121,7 @@ git-cvsserver      git-shell          git-upload-pack
 
 ### 查看 /usr/local/git/bin/git*
 
-```Shell
+```shell
 ➜  bin  ls /usr/local/git/bin/git*
 /usr/local/git/bin/git                        /usr/local/git/bin/git-shell
 /usr/local/git/bin/git-credential-osxkeychain /usr/local/git/bin/git-upload-archive
@@ -82,7 +131,7 @@ git-cvsserver      git-shell          git-upload-pack
 
 备份原来的 binUtils 为 *.org。
 
-```Shell
+```shell
 ➜  bin  sudo mv ./git ./git.org
 Password:
 ➜  bin  sudo mv ./git-receive-pack ./git-receive-pack.org
@@ -97,7 +146,7 @@ git-receive-pack.org   git-upload-archive.org git.org
 
 ### 超链 /usr/local/git/bin/ 到 Xcode 的 binUtils
 
-```Shell
+```shell
 ➜  bin  sudo ln -Ff /usr/local/git/bin/git git
 ➜  bin  sudo ln -Ff /usr/local/git/bin/git-receive-pack git-receive-pack
 ➜  bin  sudo ln -Ff /usr/local/git/bin/git-upload-archive git-upload-archive
@@ -108,7 +157,7 @@ git-receive-pack.org   git-upload-archive.org git.org
 ➜  bin  sudo ln -Ff /usr/local/git/bin/gitk gitk
 ```
 
-```Shell
+```shell
 ➜  bin  ls git*
 git                        git-receive-pack.org       git-upload-pack
 git-credential-osxkeychain git-shell                  git-upload-pack.org
@@ -117,7 +166,7 @@ git-cvsserver.org          git-upload-archive         gitk
 git-receive-pack           git-upload-archive.org
 ```
 
-```Shell
+```shell
 ➜  bin  git version
 git version 2.5.3
 ```
