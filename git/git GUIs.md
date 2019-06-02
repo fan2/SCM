@@ -16,6 +16,8 @@ Windows Explorer Extension to Operate Git
 
 > 建议 Windows 采用。
 
+[Documentation](https://tortoisegit.org/docs/)
+
 ## [SmartGit](https://www.syntevo.com/smartgit/)
 
 Get your commit done.  
