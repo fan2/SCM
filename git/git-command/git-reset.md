@@ -1,12 +1,11 @@
 
 [git撤销修改各种情况](https://cloud.tencent.com/developer/article/1028781)  
 
-```
-工作区           暂存区                本地仓库                          远程仓库
-    \          /      \            /        \                         /
-     \        /         \         /           \                      /
-     git diff         git diff --cache     git diff origin/master master
-```
+`HEAD` 表示当前版本，也就是最新的提交。  
+`HEAD^` 表示上一个版本，`HEAD^^` 表示上上一个版本。  
+
+往上100个版本写成 100 个 `^` 比较麻烦，一般简写成 `HEAD~100`。  
+`HEAD~1` 相当于 `HEAD^`，`HEAD~2` 相当于 `HEAD^^`。  
 
 ## [git不同阶段撤回](http://einverne.github.io/post/2017/12/git-reset.html)
 
