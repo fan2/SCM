@@ -1,5 +1,11 @@
 # git图形界面客户端
 
+[gitk - The Git repository browser](https://git-scm.com/docs/gitk)  
+[A1.1 Appendix A: Git in Other Environments - Graphical Interfaces](https://git-scm.com/book/en/v2/Appendix-A:-Git-in-Other-Environments-Graphical-Interfaces)  
+[**GUI Clients**](https://git-scm.com/downloads/guis)  
+
+---
+
 《[Git图形化界面客户端大汇总](http://my.oschina.net/amstrong/blog/159114)》  
 《[The Best Mac Git Gui](http://blog.hswolff.com/the-best-mac-git-gui/)》  
 《[What are the best Git clients for Mac OS X?](http://www.slant.co/topics/465/~what-are-the-best-git-clients-for-mac-os-x)》  
@@ -26,14 +32,49 @@ SmartGit is a graphical Git client with support for SVN and Pull Requests for Gi
 
 > 建议 Windows/macOS 采用。
 
+### refs
+
 [SmartGit - Manual](http://www.syntevo.com/doc/display/SG/Manual)
+
+[SmartGit初步使用](https://www.cnblogs.com/DebugLife/p/3772763.html)  
+[SmartGit 安装及使用（一）：安装及配置](https://blog.csdn.net/guang_s/article/details/84257539)  
+
+### non-commercial
+
+[SmartGit non-commercial](https://www.syntevo.com/blog/?p=3669)  
+
+- [Windows](https://blog.csdn.net/u014653854/article/details/86467436)  
+- [macOS](https://www.jianshu.com/p/79ff2d63ddc6)  
+
+[SmartGit一直强提示让确认“于非营利目的”解决步骤](https://blog.csdn.net/haha223545/article/details/86699820) - 注册非商业许可证  
+
+## [Tower](https://www.git-tower.com/)
+
+the most powerful Git client for Mac and Windows.
+
+Tower is available on macOS (10.11+) and Windows (7 SP2+). 
+
+> 没法看整个仓库的文件和单个文件的历史。
+
+[git-tower使用教训](https://www.jianshu.com/p/621b123fee1c)
 
 ## [Sourcetree](https://www.sourcetreeapp.com/)
 
 A free Git client for Windows and Mac  
 Simplicity and power in a beautiful Git GUI  
 
-> 没法看整个仓库的文件，看单个文件的历史。
+> 没法看整个仓库的文件和单个文件的历史，用 [gitk](https://blog.csdn.net/nujiah001/article/details/50676333) 查看？
+
+## [GitEye](https://www.collab.net/products/giteye)
+
+GitEye is a graphical client for Git from CollabNet.
+GitEye is an easy-to-use Git GUI that improves development productivity.  
+
+GitEye runs on Windows, macOS and Linux.
+
+![GitEye-About](./images/GitEye-About.png)
+
+> Eclipse 的厚重即视感，也没法看整个仓库的文件和单个文件的历史。
 
 ## [GitUp](https://gitup.co/)
 
