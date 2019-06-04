@@ -20,7 +20,7 @@
 The Power of Git – in a Windows Shell  
 Windows Explorer Extension to Operate Git  
 
-> 建议 Windows 采用。
+> TortoiseSVN 孪生兄弟，建议 Windows 采用。
 
 [Documentation](https://tortoisegit.org/docs/)
 
@@ -30,18 +30,14 @@ Get your commit done.
 SmartGit runs on Windows, macOS and Linux.  
 SmartGit is a graphical Git client with support for SVN and Pull Requests for GitHub and Bitbucket.   
 
-> 建议 Windows/macOS 采用。
+> SmartSVN 孪生兄弟，建议 Windows/macOS 采用。
 
-### refs
-
-[SmartGit - Manual](http://www.syntevo.com/doc/display/SG/Manual)
+### [Manual](http://www.syntevo.com/doc/display/SG/Manual)
 
 [SmartGit初步使用](https://www.cnblogs.com/DebugLife/p/3772763.html)  
 [SmartGit 安装及使用（一）：安装及配置](https://blog.csdn.net/guang_s/article/details/84257539)  
 
-### non-commercial
-
-[SmartGit non-commercial](https://www.syntevo.com/blog/?p=3669)  
+### [non-commercial](https://www.syntevo.com/blog/?p=3669)  
 
 - [Windows](https://blog.csdn.net/u014653854/article/details/86467436)  
 - [macOS](https://www.jianshu.com/p/79ff2d63ddc6)  
@@ -60,7 +56,7 @@ Tower is available on macOS (10.11+) and Windows (7 SP2+).
 
 ## [Sourcetree](https://www.sourcetreeapp.com/)
 
-A free Git client for Windows and Mac  
+A **free** Git client for Windows and Mac  
 Simplicity and power in a beautiful Git GUI  
 
 > 没法看整个仓库的文件和单个文件的历史，用 [gitk](https://blog.csdn.net/nujiah001/article/details/50676333) 查看？
