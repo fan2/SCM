@@ -18,9 +18,41 @@ git config --global core.quotepath false
 
 [How to get rid of ESC\[ characters when using git diff on Mac OS X Mavericks?](https://stackoverflow.com/questions/20414596/how-to-get-rid-of-esc-characters-when-using-git-diff-on-mac-os-x-mavericks)
 
-将 `~/.zshrc` 中的以下屏蔽掉即可：
+如果之前有配置导出 LESS，可将 `~/.zshrc` 中的相关配置项屏蔽掉即可：
 
 ```
 LESS='-Pslines %lt-%lb bytes %bt-%bb %Pb\% of file %f';
 export LESS
 ```
+
+或者单独设置 git 分页器（core.pager）为 `less -R`：
+
+```
+// read
+faner@MBP-FAN % git config --global core.pager
+
+// write
+faner@MBP-FAN % git config --global core.pager "less -R"
+
+// read
+faner@MBP-FAN % git config --global core.pager
+less -R
+```
+
+## 修改语言
+
+[How does one change the language of the command line interface of Git?](https://stackoverflow.com/questions/10633564/how-does-one-change-the-language-of-the-command-line-interface-of-git)  
+[Change git's language to English without changing the locale](https://askubuntu.com/questions/320661/change-gits-language-to-english-without-changing-the-locale)  
+
+[Git 2.19 对Diff、Branch和Grep等做了改进](http://www.infoq.com/cn/news/2018/09/git-2.19-released)  
+[如何更改Git的命令行界面的语言？](https://codeday.me/bug/20170821/64386.html) [让 git 显示英文](https://blog.csdn.net/RonnyJiang/article/details/53509727)  
+
+在当前命令行中执行 `LAGN=en_GB` 临时设置语言，关闭终端失效。
+
+或在 bash 或 zsh 中启动 git 之前修改语言变量 LANG：
+
+```shell
+echo "alias git='LANG=en_GB git'" >> ~/.bashrc
+```
+
+**恢复中文**：在 `~/.bashrc`（或 `~/.zshrc`） 中注释掉以上即可。
