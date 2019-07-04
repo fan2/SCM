@@ -98,6 +98,14 @@ faner@MBP-FAN ~/Projects/github/libNET/mars
 
 默认显示自某次提交之前的日志，添加 `-n 1` 选项限定只查看某一次的提交。
 
+## 查看合并的提交记录
+
+`--merges`
+
+```
+git log --author="fan2" --merges
+```
+
 ## 查看指定仓库的提交记录
 
 `git log` 默认查看的是本地当前仓库的日志。
@@ -120,3 +128,15 @@ iq git/feature/8.0.8_PCSendMobileAlbum2
 ```
 
 指定其他仓库，查询相应 commit hash，以便执行 `git cherry-pick` 将某些提交合入当前分支。
+
+### 查看指定分支的提交记录
+
+[How do I run git log to see changes only for a specific branch?](https://stackoverflow.com/questions/4649356/how-do-i-run-git-log-to-see-changes-only-for-a-specific-branch)
+
+[Git log to get commits only for a specific branch](https://stackoverflow.com/questions/14848274/git-log-to-get-commits-only-for-a-specific-branch)
+
+指定参数 `--first-parent` 查看 `feature/8.1.0_NewUI` 分支的日志：
+
+```
+git log --author="fan2" --graph --abbrev-commit --decorate --first-parent feature/8.1.0_NewUI
+```
