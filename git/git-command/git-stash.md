@@ -4,27 +4,32 @@
 
 [7.3 Git Tools - Stashing and Cleaning](https://git-scm.com/book/en/v2/Git-Tools-Stashing-and-Cleaning)
 
-执行 `git help stash` 查看 stash 命令帮助：
-
 ```
-GIT-STASH(1)                                Git Manual                                GIT-STASH(1)
+# man git
+       git-stash(1)
+           Stash the changes in a dirty working directory away.
 
-NAME
-       git-stash - Stash the changes in a dirty working directory away
+# git stash -h
 
-SYNOPSIS
-       git stash list [<options>]
-       git stash show [<stash>]
-       git stash drop [-q|--quiet] [<stash>]
-       git stash ( pop | apply ) [--index] [-q|--quiet] [<stash>]
-       git stash branch <branchname> [<stash>]
-       git stash [push [-p|--patch] [-k|--[no-]keep-index] [-q|--quiet]
-                    [-u|--include-untracked] [-a|--all] [-m|--message <message>]
-                    [--] [<pathspec>...]]
-       git stash clear
-       git stash create [<message>]
-       git stash store [-m|--message <message>] [-q|--quiet] <commit>
+usage: git stash list [<options>]
+   or: git stash show [<stash>]
+   or: git stash drop [-q|--quiet] [<stash>]
+   or: git stash ( pop | apply ) [--index] [-q|--quiet] [<stash>]
+   or: git stash branch <branchname> [<stash>]
+   or: git stash save [--patch] [-k|--[no-]keep-index] [-q|--quiet]
+		      [-u|--include-untracked] [-a|--all] [<message>]
+   or: git stash [push [--patch] [-k|--[no-]keep-index] [-q|--quiet]
+		       [-u|--include-untracked] [-a|--all] [-m <message>]
+		       [-- <pathspec>...]]
+   or: git stash clear
 ```
+
+执行 `git help stash` 或 `man git-stash` 可查看 GIT-STASH 的 man-page。
+
+git-stash - Stash the changes in a dirty working directory away
+
+- `Save` your local modifications to a new stash entry;  
+- `roll` them *back* to HEAD (in the working tree and in the index).  
 
 ## [git-stash commands](https://www.oschina.net/translate/useful-tricks-you-might-not-know-about-git-stash)
 
@@ -41,10 +46,89 @@ SYNOPSIS
 
 **说明**：
 
-`git stash` 默认是 push 操作，可以指定 `-u | --include-untracked`。
-`git stash save` 已经 deprecated，使用 `git stash push -m` 替代。
+`git stash` 默认是 push 操作，可以指定 `-u | --include-untracked`。  
+`git stash save` 已经 deprecated，使用 **`git stash push -m`** 替代。  
 
-### stash index
+### push(save)
+
+执行 `git stash [push [-m <message>]]` 将当前分支的改动贮藏到 stash 堆栈。
+
+暂存的改动范畴包括：
+
+1. 包括 not staged 的待 add 暂存 or checkout -- 还原的文件；  
+2. 包括 staged 的待 commit 提交 or reset HEAD 进行 unstage 的文件；  
+3. 不包括 untracked 未跟踪的文件；  
+4. 不包括 ignored 忽略的文件；  
+
+**`[-m <message>]`** 选项指定本次 stash 的信息，以便后面在 list/show 查看堆栈时识别。  
+
+#### include
+
+- `[-u|--include-untracked]`：包含 untracked 的文件。  
+- `[-a|--all]`：包含 untracked 和 ignored 的文件。  
+
+#### patch
+
+如果增加 `[-p|--patch]` 选项，将以交互模式询问逐文件逐个改动区块（each hunk）的 stash 策略。
+
+```
+Stash this hunk [y,n,q,a,d,j,J,g,/,e,?]?
+```
+
+字母选项的意义具体参考 `git help add` 的 `INTERACTIVE MODE` patch 部分。
+
+```
+y - stage this hunk
+n - do not stage this hunk
+q - quit; do not stage this hunk or any of the remaining ones
+a - stage this hunk and all later hunks in the file
+d - do not stage this hunk or any of the later hunks in the file
+g - select a hunk to go to
+/ - search for a hunk matching the given regex
+j - leave this hunk undecided, see next undecided hunk
+J - leave this hunk undecided, see next hunk
+k - leave this hunk undecided, see previous undecided hunk
+K - leave this hunk undecided, see previous hunk
+s - split the current hunk into smaller hunks
+e - manually edit the current hunk
+? - print help
+```
+
+- `y/n`：为 yes/no；  
+- `q`：quit（include any of remaining ones）；  
+- `a`：stage all（include all later hunks）；  
+- `d`：do not stage（include any of later hunks）；  
+- `g`：列举当前文件所有的 hunks，并提示选择一个要跳转的 hunk 索引编号；  
+- `/`：正则匹配一个 hunk。——基于什么匹配？  
+- `j/k`：在未决 hunk 之间跳转（next/previous）；  
+- `e`：手动编辑当前 hunk；  
+
+**注意**：q(uit) 为放弃所有；a/d 中是 stage/unstage 当前及之后所有。  
+
+#### path
+
+`[-- <pathspec>...]]`：double hyphen -- 符号之后可以续接要 stash 的指定文件（的相对路径）。
+
+When pathspec is given to git stash push, the new stash entry records the modified states *only* for the files that match the pathspec.
+
+> 如果包含 untracked 的文件，记得先添加 `-u` 选项。
+
+关于 pathspec 指定语法（syntax）及匹配规则（Fileglobs），可参考 `git-add` 和 `gitglossary` 相关议题。
+
+### show
+
+#### list
+
+执行 `git stash list` 命令，可以列举当前 stash 堆栈记录。  
+也可执行 `git stash list | cat` 将结果重定向调用 cat 全部打印出来。  
+
+git stash list 列表中每一次 stash 记录的样式为：
+
+```
+stash@{n}: On <branchname>: <message>
+```
+
+n 为从近到远的 stash 记录栈索引，最新 push 压入栈顶的索引为 0（`stash@{0}`）。
 
 引用 stash 版本号格式：`stash@{<revision>}`
 
@@ -55,8 +139,19 @@ SYNOPSIS
 Stashes may also be referenced by specifying just the stash index
 (e.g. the integer `n` is equivalent to `stash@{n}`).
 
-- `git stash show 1`：显示索引为1的 stash 改动信息；  
-- `git stash drop stash@{0}`: 移除最近一个 stash，也可忽略 `stash@{0}`；  
+#### specific
+
+`git stash show [<stash>]`
+
+> `[<stash>]` 为可选参数，当不指定时 `git stash show` 默认显示栈顶记录信息。
+
+查看栈顶最近一次 push-save 的 stash 记录：`git stash show stash@{0}`，也可简写为 `git stash show 0`。
+
+`git stash show 1` 显示索引为1的 stash 改动概要信息。  
+
+### apply/pop
+
+`git stash ( pop | apply ) [--index] [-q|--quiet] [<stash>]`
 
 ### branch with stash
 

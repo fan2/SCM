@@ -1,4 +1,10 @@
 
+```
+# man git
+       git-reset(1)
+           Reset current HEAD to the specified state.
+```
+
 [git撤销修改各种情况](https://cloud.tencent.com/developer/article/1028781)  
 
 `HEAD` 表示当前版本，也就是最新的提交。  

@@ -1,6 +1,26 @@
 
 ## [git help log](https://git-scm.com/docs/git-log)
 
+执行 `git log -h` 查看概要 usage：
+
+```
+└> git log -h
+usage: git log [<options>] [<revision-range>] [[--] <path>...]
+   or: git show [<options>] <object>...
+
+    -q, --quiet           suppress diff output
+    --source              show source
+    --use-mailmap         Use mail map file
+    --decorate-refs <pattern>
+                          only decorate refs that match <pattern>
+    --decorate-refs-exclude <pattern>
+                          do not decorate refs that match <pattern>
+    --decorate[=...]      decorate options
+    -L <n,m:file>         Process line range n,m in file, counting from 1
+```
+
+执行 `git help log` 查看详细 man-page：
+
 ```
 GIT-LOG(1)                                  Git Manual                                  GIT-LOG(1)
 
@@ -29,14 +49,45 @@ DESCRIPTION
 `--abbrev-commit` | 仅显示 SHA-1 的前几个字符，而非所有的 40 个字符
 `--relative-date` | 使用较短的相对时间显示，例如 “2 weeks ago”
 
+### gitrevisions
+
+参考 `gitrevisions` 议题。
+
+```
+# git help gitrevisions 或 man gitrevisions
+
+       <revision range>
+           Show only commits in the specified revision range. When no <revision
+           range> is specified, it defaults to HEAD (i.e. the whole history
+           leading to the current commit).  origin..HEAD specifies all the
+           commits reachable from the current commit (i.e.  HEAD), but not from
+           origin. For a complete list of ways to spell <revision range>, see the
+           Specifying Ranges section of gitrevisions(7).
+```
+
+`git log <>`
+
 ### limit
 
 选项 | 说明
 ----|---------
 **`-(n)`** | 仅显示最近的 n 条提交: git log -n 2 或 git log -2  
 `--skip` | 指定跳过前几条日志
+
+### date
+
+选项 | 说明
+----|---------
 `--since`, `--after` | 仅显示指定时间之后的提交  
 `--until`, `--before` | 仅显示指定时间之前的提交  
+
+```
+       --since=<date>, --after=<date>
+           Show commits more recent than a specific date.
+
+       --until=<date>, --before=<date>
+           Show commits older than a specific date.
+```
 
 ### message
 
@@ -80,12 +131,24 @@ git log --graph --decorate --oneline --simplify-by-decoration --all
 
 ## 查看某个文件的日志
 
-`git log [filename]`
+```
+       [--] <path>...
+           Show only commits that are enough to explain how the files that match
+           the specified paths came to be. See History Simplification below for
+           details and other simplification modes.
+
+           Paths may need to be prefixed with -- to separate them from options or
+           the revision range, when confusion arises.
+```
+
+`git log [[--] <path>...]`，其中 **path** 为当前目录相对路径
 
 ```
 faner@MBP-FAN ~/Projects/github/libNET/mars
 0 master % git log mars/comm/messagequeue/message_queue.cc
 ```
+
+`git log -p <path>`：查看指定文件日志，并打印详细的 `--full-diff`。
 
 ## 查看某次提交的日志
 
