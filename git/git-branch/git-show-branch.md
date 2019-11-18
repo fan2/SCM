@@ -102,4 +102,18 @@ git symbolic-ref --short -q HEAD
 
 [Find the parent branch of a Git branch](https://code.i-harness.com/en/q/303c74) @[stackoverflow](https://stackoverflow.com/questions/3161204/find-the-parent-branch-of-a-git-branch)  
 
+How to find the nearest parent of a Git branch?
+
+```
+git log --decorate \
+  | grep 'commit' \
+  | grep 'origin/' \
+  | head -n 2 \
+  | tail -n 1 \
+  | awk '{ print $2 }' \
+  | tr -d "\n"
+```
+
+针对以上 commit-sha1 再执行 git log -1 查看其 log。
+
 [Git First-Parent--Have your messy history and eat it too](http://www.davidchudzicki.com/posts/first-parent/)  
