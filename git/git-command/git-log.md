@@ -41,6 +41,8 @@ DESCRIPTION
        commit introduces are shown.
 ```
 
+[git log cheatsheet](https://devhints.io/git-log)
+
 ## [git log 详细使用参数](https://blog.csdn.net/helloxiaozhe/article/details/80563427)
 
 选项 | 说明
@@ -88,6 +90,44 @@ DESCRIPTION
        --until=<date>, --before=<date>
            Show commits older than a specific date.
 ```
+
+综合示例：
+
+查看 fan2 在 2019年11月4日之后的提交：
+
+```
+git log --author="fan2" --after="2019-11-04"
+```
+
+查看 fan2 自 2017年1月1日 之后的提交：
+
+```
+git log --author=fan2 --since="2017-01-01"
+
+commit 9156d24ec9008d2a13a47a8409746f13100450df (HEAD -> master)
+Merge: cdc58a8a 1b5559ad
+Author: fan2 <929683282@qq.com>
+Date:   Mon Nov 4 18:45:07 2019 +0800
+
+    Merge remote-tracking branch 'upstream/master'
+
+commit cdc58a8a241e972f969bdfdd55a4b867a9bb4687 (origin/master, origin/HEAD)
+Author: fan2 <929683282@qq.com>
+Date:   Sat Feb 23 15:06:27 2019 +0800
+
+    补充 mars 参考。
+```
+
+查看 fan2 在 2019年11月4日之后、2019年11月8日之前 的提交：
+
+```
+git log --author="fan2" --since="2019-11-04" --until="2019-11-08"
+```
+
+> [git log with date range or before after](https://community.atlassian.com/t5/Bitbucket-questions/git-log-with-date-range-or-before-after/qaq-p/603965)  
+> [How to checkout in Git by date?](https://stackoverflow.com/questions/6990484/how-to-checkout-in-git-by-date)  
+> [How does git log --since count?](https://stackoverflow.com/questions/14618022/how-does-git-log-since-count)  
+> [How to change Git log date formats](https://stackoverflow.com/questions/7853332/how-to-change-git-log-date-formats)  
 
 ### message
 
@@ -169,6 +209,13 @@ faner@MBP-FAN ~/Projects/github/libNET/mars
 git log --author="fan2" --merges
 ```
 
+**综合示例**：查看 fan2 在一段时间内的 merge 和 非merge 提交：
+
+```
+$ git log --author="fan2" --merges --since="2019-11-01" --until="2019-11-10"
+$ git log --author="fan2" --no-merges --since="2019-11-01" --until="2019-11-10"
+```
+
 ## 查看指定仓库的提交记录
 
 `git log` 默认查看的是本地当前仓库的日志。
@@ -191,6 +238,13 @@ iq git/feature/8.0.8_PCSendMobileAlbum2
 ```
 
 指定其他仓库，查询相应 commit hash，以便执行 `git cherry-pick` 将某些提交合入当前分支。
+
+[Log of remote history](https://stackoverflow.com/questions/16315379/log-of-remote-history)
+
+```
+git fetch
+git log FETCH_HEAD
+```
 
 ### 查看指定分支的提交记录
 
