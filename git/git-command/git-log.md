@@ -53,11 +53,21 @@ DESCRIPTION
 
 ### gitrevisions
 
-参考 `gitrevisions` 议题。
+执行 `git help revisions` 或 `man gitrevisions` 查看 gitrevisions 议题相关手册。
 
 ```
-# git help gitrevisions 或 man gitrevisions
+GITREVISIONS(7)                                                           Git Manual                                                          GITREVISIONS(7)
 
+
+
+NAME
+       gitrevisions - Specifying revisions and ranges for Git
+
+SYNOPSIS
+       gitrevisions
+```
+
+```
        <revision range>
            Show only commits in the specified revision range. When no <revision
            range> is specified, it defaults to HEAD (i.e. the whole history
@@ -68,6 +78,8 @@ DESCRIPTION
 ```
 
 `git log <>`
+
+[ORIG_HEAD, FETCH_HEAD, MERGE_HEAD etc](https://stackoverflow.com/questions/17595524/orig-head-fetch-head-merge-head-etc)  
 
 ### limit
 
@@ -169,6 +181,26 @@ git log --graph --decorate --oneline --simplify-by-decoration --all
 `--grep` | 仅显示含指定关键字的提交  
 `-S` | 仅显示添加或移除了某个关键字的提交  
 
+#### mutil-author
+
+同时过滤多个作者的提交日志：
+
+```
+git log --author='zhangsan' --author='lisi' --merges
+```
+
+["git log" does not work for multiple author filtering](https://forums.freebsd.org/threads/git-log-does-not-work-for-multiple-author-filtering.58555/)
+
+```
+git config --global grep.extendedRegexp true
+```
+
+[GIT: filter log by group of authors](https://stackoverflow.com/questions/22968710/git-filter-log-by-group-of-authors)
+
+```
+git log --perl-regexp --author='zhangsan|lisi' --merges
+```
+
 ## 查看某个文件的日志
 
 ```
@@ -181,6 +213,15 @@ git log --graph --decorate --oneline --simplify-by-decoration --all
            the revision range, when confusion arises.
 ```
 
+查看文件 `include/liteif.h` 最近3次的提交日志：
+
+```
+$ #git log -3 --stat include/liteif.h | cat
+$ git log -3 --stat -- include/liteif.h | cat
+```
+
+### -p
+
 `git log [[--] <path>...]`，其中 **path** 为当前目录相对路径
 
 ```
@@ -190,9 +231,15 @@ faner@MBP-FAN ~/Projects/github/libNET/mars
 
 `git log -p <path>`：查看指定文件日志，并打印详细的 `--full-diff`。
 
+查看某次 commit-sha1 的具体修改（显示 diff-patch 详情）
+
+```
+git log -p -1 ff26476c7d42bf80f268ccf8b0b7ed1fcf39962c
+```
+
 ## 查看某次提交的日志
 
-git log 指定某次 commit 的 HASH 值，即可查看某次提交的日志：
+git log 指定某次 commit 的 HASH 值，即可查看某次提交及之前的日志：
 
 ```
 faner@MBP-FAN ~/Projects/github/libNET/mars
@@ -201,9 +248,28 @@ faner@MBP-FAN ~/Projects/github/libNET/mars
 
 默认显示自某次提交之前的日志，添加 `-n 1` 选项限定只查看某一次的提交。
 
+查看 `66932f0c` 这一次提交及之前那一次的日志：
+
+```
+$ git log 66932f0c -2 | cat
+```
+
+查看 `66932f0c` 这一次提交的日志：
+
+```
+$ git log 66932f0c -1 | cat
+```
+
+查看 `66932f0c` 这一次提交之前的那一次的日志：
+
+```
+$ git log 66932f0c^ -1 | cat
+```
+
 ## 查看合并的提交记录
 
-`--merges`
+- `--merges` 过滤出 Merge Request 提交；  
+- `--no-merges` 过滤出非 Merge Request 的原始提交；  
 
 ```
 git log --author="fan2" --merges
