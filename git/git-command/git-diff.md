@@ -115,7 +115,7 @@ git diff HEAD~2 HEAD~1
 [How to compare files from two different branches?](https://stackoverflow.com/questions/4099742/how-to-compare-files-from-two-different-branches)
 
 ```
-ifan@THOMASFAN-MC1:~/Projects/git.code.com/scenario|dev-checkpskey⚡
+ifan@FAN-MC1:~/Projects/git.code.com/scenario|dev-checkpskey⚡
 ⇒  git diff remote-upstream-branch dev-substream-branch -- src/static/js/util.js
 ```
 
